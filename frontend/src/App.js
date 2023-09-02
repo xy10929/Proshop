@@ -1,6 +1,8 @@
 import { Container } from 'react-bootstrap'
 import Header from './components/Header'
 import Footer from './components/Footer'
+// <Outlet/> component is used within the parent route element to indicate where a child route element should be rendered
+import { Outlet } from 'react-router-dom'
 
 const App = () => {
   return (
@@ -8,7 +10,7 @@ const App = () => {
       <Header />
       <main className='py-3'>
         <Container>
-          <h1>Welcome To Proshop</h1>
+          <Outlet />
         </Container>
       </main>
       <Footer />
