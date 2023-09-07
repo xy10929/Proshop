@@ -12,10 +12,10 @@ import {
   Route,
   RouterProvider,
 } from 'react-router-dom'
-import { Provider } from 'react-redux'
-import store from './store'
 import HomeScreen from './screens/HomeScreen'
 import ProductScreen from './screens/ProductScreen'
+import store from './store'
+import { Provider } from 'react-redux'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
