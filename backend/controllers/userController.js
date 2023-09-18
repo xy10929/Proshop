@@ -1,6 +1,7 @@
 import asyncHandler from '../middleware/asyncHandler.js'
 //asyncHandler wraps async function of mongoose
 import User from '../models/userModel.js'
+import jwt from 'jsonwebtoken'
 
 // @desc    Auth user & get token
 // @route   POST /api/users/login
@@ -14,6 +15,21 @@ const authUser = asyncHandler(async (req, res) => {
 
   //check user and password
   if (user && (await user.matchPassword(password))) {
+    //create token, payload-user._id
+    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
+      expiresIn: '30d',
+    })
+
+    //set jwt as HTTP-only cookie
+    res.cookie('jwt', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV !== 'development',
+      //production->https->true
+      sameSite: 'strict',
+      maxAge: 30 * 24 * 60 * 60 * 1000,
+      //30 days
+    })
+
     res.json({
       _id: user._id,
       name: user.name,
