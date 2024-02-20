@@ -1,5 +1,7 @@
+//index.js is the entry of React
 import React from 'react'
 import ReactDOM from 'react-dom/client'
+//allows to interact with document object module and broswer
 import App from './App'
 import reportWebVitals from './reportWebVitals'
 // default bootstrap file
@@ -18,6 +20,7 @@ import store from './store'
 import { Provider } from 'react-redux'
 import CartScreen from './screens/CartScreen'
 
+//router of main app component
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path='/' element={<App />}>
@@ -30,7 +33,9 @@ const router = createBrowserRouter(
   )
 )
 
+//put main app component into root div
 const root = ReactDOM.createRoot(document.getElementById('root'))
+//render main app component
 root.render(
   <React.StrictMode>
     <Provider store={store}>
