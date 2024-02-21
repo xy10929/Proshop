@@ -20,7 +20,7 @@ import store from './store'
 import { Provider } from 'react-redux'
 import CartScreen from './screens/CartScreen'
 
-//router of main app component
+//routes of main app component
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path='/' element={<App />}>
