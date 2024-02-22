@@ -7,7 +7,7 @@ const orderSchema = mongoose.Schema(
       required: true,
       ref: 'User',
     },
-    //an order has multiple items
+    //an order has multiple items -> array
     orderItems: [
       {
         name: { type: String, required: true },
