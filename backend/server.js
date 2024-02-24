@@ -27,6 +27,7 @@ app.get('/', (req, res) => {
   res.send('API is running...')
 })
 
+//set routes prifix and the file they will call which includes the actual methods
 app.use('/api/products', productRoutes)
 app.use('/api/users', userRoutes)
 
