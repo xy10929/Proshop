@@ -31,6 +31,7 @@ app.get('/', (req, res) => {
 app.use('/api/products', productRoutes)
 app.use('/api/users', userRoutes)
 
+//error handler
 app.use(notFound)
 app.use(errorHandler)
 

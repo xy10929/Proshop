@@ -1,4 +1,4 @@
-//will be called if no other middleware has handle the req
+//will be called if no other middleware has handled the req
 const notFound = (req, res, next) => {
   const error = new Error(`Not Found - ${req.originalUrl}`)
   res.status(404)
@@ -19,6 +19,7 @@ const errorHandler = (err, req, res, next) => {
 
   res.status(statusCode).json({
     message,
+    //for developer
     stack: process.env.NODE_ENV === 'production' ? null : err.stack,
   })
 }
