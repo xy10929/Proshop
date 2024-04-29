@@ -11,6 +11,7 @@ const Product = ({ product }) => {
 
       <Card.Body>
         <Link to={`/product/${product._id}`}>
+          {/* title in one line */}
           <Card.Title as='div' className='product-title'>
             <strong>{product.name}</strong>
           </Card.Title>

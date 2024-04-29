@@ -15,6 +15,7 @@ import { useDispatch } from 'react-redux'
 const ProductScreen = () => {
   // const [product, setProduct] = useState({})
 
+  // get product id from the url by useParams
   const { id: productId } = useParams()
   // const product = products.find((p) => p._id === productId)
 

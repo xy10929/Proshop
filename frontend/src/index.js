@@ -4,8 +4,10 @@ import ReactDOM from 'react-dom/client'
 //allows to interact with document object module and broswer
 import App from './App'
 import reportWebVitals from './reportWebVitals'
-// default bootstrap file
-// import 'bootstrap/dist/css/bootstrap.min.css'
+//default bootstrap file
+//import 'bootstrap/dist/css/bootstrap.min.css'
+
+//custom bootstrap file
 import './assets/styles/index.css'
 import './assets/styles/bootstrap.custom.css'
 import {
@@ -23,10 +25,11 @@ import CartScreen from './screens/CartScreen'
 //routes of main app component
 const router = createBrowserRouter(
   createRoutesFromElements(
+    // parent route
     <Route path='/' element={<App />}>
-      {/* show HomeScreen when route is exactly / */}
+      {/* children routes */}
       <Route index={true} path='/' element={<HomeScreen />} />
-
+      {/* show HomeScreen when route is exactly / */}
       <Route path='/product/:id' element={<ProductScreen />} />
       <Route path='/cart' element={<CartScreen />} />
     </Route>
