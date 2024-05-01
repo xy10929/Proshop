@@ -1,13 +1,16 @@
+//entry poiont of backend
+
 import express from 'express'
-//for using .env val
+
+//for using .env variables
 import dotenv from 'dotenv'
+dotenv.config()
+
 import connectDB from './config/db.js'
 import productRoutes from './routes/productRoutes.js'
 import { notFound, errorHandler } from './middleware/errorMiddleware.js'
 import userRoutes from './routes/userRoutes.js'
 import cookieParser from 'cookie-parser'
-
-dotenv.config()
 
 const port = process.env.PORT || 5000
 
