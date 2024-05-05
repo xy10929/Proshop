@@ -41,7 +41,9 @@ const root = ReactDOM.createRoot(document.getElementById('root'))
 //render main app component
 root.render(
   <React.StrictMode>
+    {/* wrap RouterProvider with Provider, passing in store as a prop */}
     <Provider store={store}>
+      {/* main app */}
       <RouterProvider router={router} />
     </Provider>
   </React.StrictMode>

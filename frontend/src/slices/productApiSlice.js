@@ -8,7 +8,7 @@ export const productsApiSlice = apiSlice.injectEndpoints({
         url: PRODUCTS_URL,
       }),
       keepUnusedDataFor: 5,
-      //keep data cached for 5s after the last mounted component
+      //keep data cached for 5s when a component querys an endpoint, the value will be served if another component makes the same request within the time
     }),
     getProductDetails: builder.query({
       query: (productId) => ({
