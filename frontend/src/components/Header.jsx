@@ -6,6 +6,7 @@ import { LinkContainer } from 'react-router-bootstrap'
 import { useSelector } from 'react-redux'
 
 const Header = () => {
+  //get cartItems state from cartSlice to count the number
   const { cartItems } = useSelector((state) => state.cart)
 
   return (

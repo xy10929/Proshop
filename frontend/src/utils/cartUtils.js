@@ -3,9 +3,10 @@ export const addDecimals = (num) => {
   return (Math.round(num * 100) / 100).toFixed(2)
 }
 
+//calculate prices of state based on updated items and their Qty, save the state into localStorage
 export const updateCart = (state) => {
-  //calculate items price
   state.itemsPrice = addDecimals(
+    //acc - accumulator
     state.cartItems.reduce((acc, item) => acc + item.price * item.qty, 0)
   )
 

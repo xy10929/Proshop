@@ -41,7 +41,7 @@ const CartScreen = () => {
               <ListGroup.Item key={item._id}>
                 <Row>
                   <Col md={2}>
-                    <Image src={item.image} aly={item.name} fluid rounded />
+                    <Image src={item.image} alt={item.name} fluid rounded />
                   </Col>
 
                   <Col md={3}>
@@ -51,6 +51,7 @@ const CartScreen = () => {
                   <Col md={2}>${item.price}</Col>
 
                   <Col md={2}>
+                    {/* reset the Qty */}
                     {/* samiliar as cartScreen */}
                     <Form.Control
                       as='select'

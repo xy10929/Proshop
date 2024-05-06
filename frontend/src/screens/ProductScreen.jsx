@@ -32,7 +32,8 @@ const ProductScreen = () => {
   } = useGetProductDetailsQuery(productId)
 
   const addToCartHandler = () => {
-    //action: addToCart(payload - current product with qty from input)
+    //action: addToCart(payload)
+    //payload: current product with qty from input
     dispatch(addToCart({ ...product, qty }))
     navigate('/cart')
   }

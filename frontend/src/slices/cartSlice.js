@@ -14,8 +14,10 @@ const cartSlice = createSlice({
 
   //functions about cart
   reducers: {
+    //add product to cart / reset Qty of existing paroduct in cart
+    //action includes payload(user input)
     addToCart: (state, action) => {
-      //get the item (that will be added to cart) from payload
+      //get the item (that will be added to cart) info (includes Qty) from payload
       const item = action.payload
 
       //check if the item is already in the cart by id
