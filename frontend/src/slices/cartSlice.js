@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-//no endpiont or async req, so just use createSlice
+//no endpionts that are dealing with async req, so just use createSlice
 
 import { updateCart } from '../utils/cartUtils'
 
@@ -11,17 +11,18 @@ const initialState = localStorage.getItem('cart')
 const cartSlice = createSlice({
   name: 'cart',
   initialState,
+
   //functions about cart
   reducers: {
     addToCart: (state, action) => {
-      //get item from payload
+      //get the item (that will be added to cart) from payload
       const item = action.payload
 
-      //check if cart already has the item id
+      //check if the item is already in the cart by id
       const existItem = state.cartItems.find((x) => x._id === item._id)
 
+      //update the Qty
       if (existItem) {
-        //if the item exists, find it and set as item
         state.cartItems = state.cartItems.map((x) =>
           x._id === existItem._id ? item : x
         )
@@ -43,5 +44,5 @@ const cartSlice = createSlice({
 
 export const { addToCart, removeFromCart } = cartSlice.actions
 
+// for storing in reducer of store.js
 export default cartSlice.reducer
-//for storing in reducer of store.js
