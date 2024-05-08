@@ -10,8 +10,8 @@ const authUser = asyncHandler(async (req, res) => {
   //get email and password from req
   const { email, password } = req.body
 
-  //grt user from email
-  const user = await User.findOne({ email: email })
+  //get user from email
+  const user = await User.findOne({ email })
 
   //check user and password
   if (user && (await user.matchPassword(password))) {
@@ -133,7 +133,7 @@ const getUsers = asyncHandler(async (req, res) => {
   res.send('get users')
 })
 
-// @desc    Delete users
+// @desc    Delete user
 // @route   DELETE /api/users/:id
 // @access  Private/Admin
 const deleteUser = asyncHandler(async (req, res) => {

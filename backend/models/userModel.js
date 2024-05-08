@@ -27,7 +27,7 @@ const userSchema = mongoose.Schema(
   }
 )
 
-//check password input and data in DB
+//compare password input(plain text) with data in DB(hashed password)
 userSchema.methods.matchPassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password)
 }
