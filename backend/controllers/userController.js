@@ -51,7 +51,7 @@ const registerUser = asyncHandler(async (req, res) => {
   })
 
   if (user) {
-    //create token
+    //create token and set as cookie
     genarateToken(res, user._id)
 
     res.status(201).json({
@@ -83,6 +83,7 @@ const logoutUser = asyncHandler(async (req, res) => {
 // @route   GET /api/users/profile
 // @access  Private
 const getUserProfile = asyncHandler(async (req, res) => {
+  //user of req has been added by protect function
   const user = await User.findById(req.user._id)
 
   if (user) {
@@ -108,6 +109,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
     user.name = req.body.name || user.name
     user.email = req.body.email || user.email
 
+    //user.password is hashed in db, so just check if there is req.body.password
     if (req.body.password) {
       user.password = req.body.password
     }
