@@ -3,6 +3,8 @@ import Header from './components/Header'
 import Footer from './components/Footer'
 // <Outlet/> component is used within the parent route element to indicate where a child route element should be rendered
 import { Outlet } from 'react-router-dom'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 //main app component, return a JSX(for putting html directly into JS)
 const App = () => {
@@ -16,6 +18,7 @@ const App = () => {
         </Container>
       </main>
       <Footer />
+      <ToastContainer />
     </>
   )
 }
