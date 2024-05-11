@@ -3,7 +3,10 @@ import { FaShoppingCart, FaUser } from 'react-icons/fa'
 import logo from '../assets/logo.png'
 //for using Link in Nav
 import { LinkContainer } from 'react-router-bootstrap'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { useLogoutMutation } from '../slices/usersApiSlice'
+import { logout } from '../slices/authSlice'
+import { useNavigate } from 'react-router-dom'
 
 const Header = () => {
   //get cartItems state from cartSlice to count the number
@@ -12,8 +15,23 @@ const Header = () => {
   //for changing sign in UI
   const { userInfo } = useSelector((state) => state.auth)
 
-  const logoutHandler = () => {
-    console.log('logout')
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+
+  const [logoutApiCall] = useLogoutMutation()
+
+  const logoutHandler = async () => {
+    try {
+      //call api function that interact with backend to clear cookie
+      await logoutApiCall().unwrap()
+
+      //clear userInfo from localStorage
+      dispatch(logout())
+
+      navigate('/login')
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   return (
