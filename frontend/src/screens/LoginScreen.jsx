@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { Form, Button, Row, Col } from 'react-bootstrap'
 import FormContainer from '../components/FormContainer'
+//interact with state
 import { useDispatch, useSelector } from 'react-redux'
 import Loader from '../components/Loader'
 import { useLoginMutation } from '../slices/usersApiSlice'
@@ -15,15 +16,18 @@ const LoginScreen = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
+  //login mutation for backend api
   const [login, { isLoading }] = useLoginMutation()
 
   const { userInfo } = useSelector((state) => state.auth)
 
+  //get redirect target url from SearchParams of current url
   const { search } = useLocation()
   const sp = new URLSearchParams(search)
   const redirect = sp.get('redirect') || '/'
 
   useEffect(() => {
+    //redirect if user has logged in
     if (userInfo) {
       navigate(redirect)
     }
@@ -32,8 +36,13 @@ const LoginScreen = () => {
   const submitHandler = async (e) => {
     e.preventDefault()
     try {
+      //call login function that interact with backend to get res with userInfo
       const res = await login({ email, password }).unwrap()
+
+      //pass userInfo as payload of action to save userInfo into localStorage
       dispatch(setCredentials({ ...res }))
+
+      //navigate to redirect target url once there is userInfo
       navigate(redirect)
     } catch (err) {
       toast.error(err?.data?.message || err.error)

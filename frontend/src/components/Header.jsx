@@ -9,6 +9,7 @@ const Header = () => {
   //get cartItems state from cartSlice to count the number
   const { cartItems } = useSelector((state) => state.cart)
 
+  //for changing sign in UI
   const { userInfo } = useSelector((state) => state.auth)
 
   const logoutHandler = () => {
