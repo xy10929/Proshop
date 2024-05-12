@@ -6,7 +6,7 @@ import { updateCart } from '../utils/cartUtils'
 //try to get from localStorage
 const initialState = localStorage.getItem('cart')
   ? JSON.parse(localStorage.getItem('cart'))
-  : { cartItems: [] }
+  : { cartItems: [], shippingAddress: {}, paymentMethod: 'Paypal' }
 
 const cartSlice = createSlice({
   name: 'cart',
@@ -35,16 +35,25 @@ const cartSlice = createSlice({
 
       return updateCart(state)
     },
+
     removeFromCart: (state, action) => {
       //action.payload - item id
       state.cartItems = state.cartItems.filter((x) => x._id !== action.payload)
 
+      //save the state into localStorage
+      return updateCart(state)
+    },
+
+    //save ShippingAddress(payload) into state and localStorage
+    saveShippingAddress: (state, action) => {
+      state.shippingAddress = action.payload
       return updateCart(state)
     },
   },
 })
 
-export const { addToCart, removeFromCart } = cartSlice.actions
+export const { addToCart, removeFromCart, saveShippingAddress } =
+  cartSlice.actions
 
 // for storing in reducer of store.js
 export default cartSlice.reducer
