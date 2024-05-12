@@ -86,11 +86,12 @@ const LoginScreen = () => {
         <Row>
           <Col>
             New Customer?{' '}
-            <Link
+            {/* <Link
               to={redirect ? `/register?redirect=${redirect}` : '/register'}
             >
               Register
-            </Link>
+            </Link> */}
+            <Link to={`/register?redirect=${redirect}`}>Register</Link>
           </Col>
         </Row>
 
