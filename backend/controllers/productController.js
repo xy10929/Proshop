@@ -1,7 +1,6 @@
-import asyncHandler from '../middleware/asyncHandler.js'
 //asyncHandler wraps async function of mongoose
+import asyncHandler from '../middleware/asyncHandler.js'
 import Product from '../models/productModel.js'
-//bring data from model
 
 // @desc    Fetch all products
 // @route   GET /api/products
