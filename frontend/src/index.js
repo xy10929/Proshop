@@ -23,7 +23,7 @@ import { Provider } from 'react-redux'
 import CartScreen from './screens/CartScreen'
 import LoginScreen from './screens/LoginScreen'
 import RegisterScreen from './screens/RegisterScreen'
-import ShippingScreen from './screens/ShippingScreen'
+import ShippingScreen from './screens/Shipping'
 import PrivateRoute from './components/PrivateRoute'
 
 //routes of main app component
