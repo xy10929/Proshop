@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom/client'
 //allows to interact with document object module and broswer
 import App from './App'
 import reportWebVitals from './reportWebVitals'
+
 //default bootstrap file
 //import 'bootstrap/dist/css/bootstrap.min.css'
 
