@@ -54,6 +54,12 @@ const cartSlice = createSlice({
       state.paymentMethod = action.payload
       return updateCart(state)
     },
+
+    //once the order is created, clear the cart
+    clearCartItems: (state, action) => {
+      state.cartItems = []
+      return updateCart(state)
+    },
   },
 })
 
@@ -62,6 +68,7 @@ export const {
   removeFromCart,
   saveShippingAddress,
   savePaymentMethod,
+  clearCartItems,
 } = cartSlice.actions
 
 // for storing in reducer of store.js
