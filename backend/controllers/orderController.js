@@ -1,34 +1,45 @@
 import asyncHandler from '../middleware/asyncHandler.js'
 import Order from '../models/orderModel.js'
 
-// @desc    Create a new order
+import Product from '../models/productModel.js'
+import { calcPrices } from '../utils/calcPrices.js'
+
+// @desc    Create new order
 // @route   POST /api/orders
 // @access  Private
 const addOrderItems = asyncHandler(async (req, res) => {
-  const {
-    orderItems,
-    shippingAddress,
-    paymentMethod,
-    itemsPrice,
-    taxPrice,
-    shippingPrice,
-    totalPrice,
-  } = req.body
+  const { orderItems, shippingAddress, paymentMethod } = req.body
 
   if (orderItems && orderItems.length === 0) {
     res.status(400)
     throw new Error('No order items')
   } else {
-    const order = new Order({
-      //for orderItems of orderModel
-      orderItems: orderItems.map((x) => ({
-        ...x,
+    // NOTE: here we must assume that the prices from our client are incorrect. We must only trust the price of the item as it exists in our DB. This prevents a user paying whatever they want by hacking our client
 
-        //product -> product id of the item
-        //do not nood _id for item
-        product: x._id,
+    // get the ordered items from our database
+    const itemsFromDB = await Product.find({
+      _id: { $in: orderItems.map((x) => x._id) },
+    })
+
+    // map over the order items and use the price from our items from database
+    const dbOrderItems = orderItems.map((itemFromClient) => {
+      const matchingItemFromDB = itemsFromDB.find(
+        (itemFromDB) => itemFromDB._id.toString() === itemFromClient._id
+      )
+      return {
+        ...itemFromClient,
+        product: itemFromClient._id,
+        price: matchingItemFromDB.price,
         _id: undefined,
-      })),
+      }
+    })
+
+    // calculate prices
+    const { itemsPrice, taxPrice, shippingPrice, totalPrice } =
+      calcPrices(dbOrderItems)
+
+    const order = new Order({
+      orderItems: dbOrderItems,
       user: req.user._id,
       shippingAddress,
       paymentMethod,
@@ -39,9 +50,52 @@ const addOrderItems = asyncHandler(async (req, res) => {
     })
 
     const createdOrder = await order.save()
-    res.status(201).jsono(createdOrder)
+
+    res.status(201).json(createdOrder)
   }
 })
+
+// //does not work for navigate(`/order/${res._id}`) in PlaceOrderScreen
+// // @desc    Create a new order
+// // @route   POST /api/orders
+// // @access  Private
+// const addOrderItems = asyncHandler(async (req, res) => {
+//   const {
+//     orderItems,
+//     shippingAddress,
+//     paymentMethod,
+//     itemsPrice,
+//     taxPrice,
+//     shippingPrice,
+//     totalPrice,
+//   } = req.body
+
+//   if (orderItems && orderItems.length === 0) {
+//     res.status(400)
+//     throw new Error('No order items')
+//   } else {
+//     const order = new Order({
+//       //for orderItems of orderModel
+//       orderItems: orderItems.map((x) => ({
+//         ...x,
+//         product: x._id,
+//         _id: undefined,
+//         //product -> product id of the item
+//         //do not nood _id for item
+//       })),
+//       user: req.user._id,
+//       shippingAddress,
+//       paymentMethod,
+//       itemsPrice,
+//       taxPrice,
+//       shippingPrice,
+//       totalPrice,
+//     })
+
+//     const createdOrder = await order.save()
+//     res.status(201).jsono(createdOrder)
+//   }
+// })
 
 // @desc    Get logged in user orders
 // @route   POST /api/orders/mine

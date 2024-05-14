@@ -51,7 +51,7 @@ const cartSlice = createSlice({
     },
 
     savePaymentMethod: (state, action) => {
-      state.paymentMethod = action.payload
+      state.shippingAddress.paymentMethod = action.payload
       return updateCart(state)
     },
 
