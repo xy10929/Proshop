@@ -90,9 +90,8 @@ const PlaceOrderScreen = () => {
                           />
                         </Col>
                         <Col>
-                          <Link to={`/products/${item.product}`}>
-                            {item.name}
-                          </Link>
+                          {/* /product/${item.product}??? */}
+                          <Link to={`/product/${item._id}`}>{item.name}</Link>
                         </Col>
                         <Col md={4}>
                           {item.qty} x ${item.price} = ${item.qty * item.price}
@@ -157,13 +156,12 @@ const PlaceOrderScreen = () => {
                 >
                   Place Order
                 </Button>
-
-                {isLoading && <Loader />}
               </ListGroup.Item>
             </ListGroup>
           </Card>
         </Col>
       </Row>
+      {isLoading && <Loader />}
     </>
   )
 }
