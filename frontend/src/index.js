@@ -11,6 +11,7 @@ import reportWebVitals from './reportWebVitals'
 //custom bootstrap file
 import './assets/styles/index.css'
 import './assets/styles/bootstrap.custom.css'
+
 import {
   createBrowserRouter,
   createRoutesFromElements,
@@ -28,6 +29,7 @@ import ShippingScreen from './screens/ShippingScreen'
 import PrivateRoute from './components/PrivateRoute'
 import PaymentScreen from './screens/PaymentScreen'
 import PlaceOrderScreen from './screens/PlaceOrderScreen'
+import OrderScreen from './screens/OrderScreen'
 
 //routes of main app component
 const router = createBrowserRouter(
@@ -46,6 +48,7 @@ const router = createBrowserRouter(
         <Route path='/shipping' element={<ShippingScreen />} />
         <Route path='/payment' element={<PaymentScreen />} />
         <Route path='/placeorder' element={<PlaceOrderScreen />} />
+        <Route path='/order/:id' element={<OrderScreen />} />
       </Route>
     </Route>
   )
