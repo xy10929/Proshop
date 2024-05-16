@@ -8,7 +8,7 @@ import {
   useGetPayPalClientIdQuery,
 } from '../slices/ordersApiSlice'
 import { PayPalButtons, usePayPalScriptReducer } from '@paypal/react-paypal-js'
-import { tosat } from 'react-toastify'
+import { toast } from 'react-toastify'
 import { useSelector } from 'react-redux'
 import { useEffect } from 'react'
 
@@ -57,6 +57,52 @@ const OrderScreen = () => {
       }
     }
   }, [order, paypal, paypalDispatch, loadingPayPal, errorPayPal])
+
+  //handler for Paypal button
+  function onApprove(data, actions) {
+    //from documentation
+    return actions.order.capture().then(async function (details) {
+      //details come from Paypal
+      try {
+        //reset isPaid
+        await payOrder({ orderId, details })
+
+        //reflash the page as the order is paid
+        refetch()
+
+        toast.success('Payment successful')
+      } catch (err) {
+        toast.error(err?.data?.message || err.message)
+      }
+    })
+  }
+
+  //for test
+  async function onApproveTest() {
+    await payOrder({ orderId, details: { payer: {} } })
+    refetch()
+    toast.success('Payment successful')
+  }
+
+  function onError(err) {
+    toast.error(err.message)
+  }
+
+  function createOrder(data, actions) {
+    return actions.order
+      .create({
+        purchase_units: [
+          {
+            amount: {
+              value: order.totalPrice,
+            },
+          },
+        ],
+      })
+      .then((orderId) => {
+        return orderId
+      })
+  }
 
   return isLoading ? (
     <Loader />
@@ -153,6 +199,32 @@ const OrderScreen = () => {
                   <Col>${order.totalPrice}</Col>
                 </Row>
               </ListGroup.Item>
+
+              {/* Paypal buttons */}
+              {!order.isPaid && (
+                <ListGroup.Item>
+                  {isPending ? (
+                    <Loader />
+                  ) : (
+                    <div>
+                      {/* <Button
+                        onClick={onApproveTest}
+                        style={{ marginBottom: '10px' }}
+                      >
+                        Test Pay Button
+                      </Button> */}
+                      <div>
+                        <PayPalButtons
+                          createOrder={createOrder}
+                          onApprove={onApprove}
+                          onError={onError}
+                        ></PayPalButtons>
+                      </div>
+                    </div>
+                  )}
+                  {loadingPay && <Loader />}
+                </ListGroup.Item>
+              )}
             </ListGroup>
           </Card>
         </Col>
