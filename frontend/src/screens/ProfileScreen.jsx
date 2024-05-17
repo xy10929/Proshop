@@ -111,7 +111,7 @@ const ProfileScreen = () => {
         </Form>
       </Col>
       <Col md={9}>
-        <h2>My Orders</h2>
+        <h2 align='center'>My Orders</h2>
         {isLoading ? (
           <Loader />
         ) : error ? (
@@ -122,7 +122,7 @@ const ProfileScreen = () => {
           <Table striped hover responsive className='table-sm'>
             <thead>
               <tr>
-                <th>ID</th>
+                <th>ORDER ID</th>
                 <th>DATE</th>
                 <th>TOTAL</th>
                 <th>PAID</th>
