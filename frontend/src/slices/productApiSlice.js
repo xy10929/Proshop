@@ -10,7 +10,8 @@ export const productsApiSlice = apiSlice.injectEndpoints({
       //keep data cached for 5s when a component querys an endpoint, the value will be served if another component makes the same request within the time
       keepUnusedDataFor: 5,
 
-      invalidatesTags: ['Products'],
+      //provide cache 'Products'
+      providesTags: ['Products'],
     }),
 
     getProductDetails: builder.query({
@@ -35,6 +36,7 @@ export const productsApiSlice = apiSlice.injectEndpoints({
         method: 'PUT',
         body: data,
       }),
+      //clear cached 'Products'
       invalidatesTags: ['Products'],
     }),
   }),
