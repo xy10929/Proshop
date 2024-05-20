@@ -121,7 +121,10 @@ const OrderScreen = () => {
   return isLoading ? (
     <Loader />
   ) : error ? (
-    <Message variant='danger' />
+    <Message variant='danger'>{error.data.message}</Message>
+  ) : !order.user ? (
+    //deleted a user with an order
+    <Message variant='danger'>The user of this order has been deleted</Message>
   ) : (
     <>
       <h1>Order {order._id}</h1>
