@@ -16,7 +16,7 @@ const reviewSchema = mongoose.Schema(
       required: true,
       default: 0,
     },
-    commet: {
+    comment: {
       type: String,
       required: true,
     },
