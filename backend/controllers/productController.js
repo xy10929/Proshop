@@ -93,6 +93,11 @@ const createProductReview = asyncHandler(async (req, res) => {
   const { rating, comment } = req.body
   const product = await Product.findById(req.params.id)
 
+  if (rating === 0) {
+    res.status(400)
+    throw new Error('Rating is required')
+  }
+
   if (product) {
     //check the user._id of each review to see if the user has already reviewed
     const alreadyReviewed = product.reviews.find(

@@ -230,41 +230,45 @@ const ProductScreen = () => {
                 <ListGroup.Item>
                   <h2>Write a Customer Review</h2>
                   {userInfo ? (
-                    <Form onSubmit={submitHandler}>
-                      <Form.Group controlId='rating' className='my-2'>
-                        <Form.Label>Rating</Form.Label>
-                        <Form.Control
-                          as='select'
-                          value={rating}
-                          onChange={(e) => setRating(Number(e.target.value))}
+                    loadingReview ? (
+                      <Loader />
+                    ) : (
+                      <Form onSubmit={submitHandler}>
+                        <Form.Group controlId='rating' className='my-2'>
+                          <Form.Label>Rating</Form.Label>
+                          <Form.Control
+                            as='select'
+                            value={rating}
+                            onChange={(e) => setRating(Number(e.target.value))}
+                          >
+                            <option value=''>Select...</option>
+                            <option value='1'>1 - Poor</option>
+                            <option value='2'>2 - Fair</option>
+                            <option value='3'>3 - Good</option>
+                            <option value='4'>4 - Very Good</option>
+                            <option value='5'>5 - Excellent</option>
+                          </Form.Control>
+                        </Form.Group>
+
+                        <Form.Group>
+                          <Form.Label>Comment</Form.Label>
+                          <Form.Control
+                            as='textarea'
+                            row='3'
+                            value={comment}
+                            onChange={(e) => setComment(e.target.value)}
+                          ></Form.Control>
+                        </Form.Group>
+
+                        <Button
+                          disabled={loadingReview}
+                          type='submit'
+                          variant='primary'
                         >
-                          <option value=''>Select...</option>
-                          <option value='1'>1 - Poor</option>
-                          <option value='2'>2 - Fair</option>
-                          <option value='3'>3 - Good</option>
-                          <option value='4'>4 - Very Good</option>
-                          <option value='5'>5 - Excellent</option>
-                        </Form.Control>
-                      </Form.Group>
-
-                      <Form.Group>
-                        <Form.Label>Comment</Form.Label>
-                        <Form.Control
-                          as='textarea'
-                          row='3'
-                          value={comment}
-                          onChange={(e) => setComment(e.target.value)}
-                        ></Form.Control>
-                      </Form.Group>
-
-                      <Button
-                        disabled={loadingReview}
-                        type='submit'
-                        variant='primary'
-                      >
-                        Submit
-                      </Button>
-                    </Form>
+                          Submit
+                        </Button>
+                      </Form>
+                    )
                   ) : (
                     <Message>
                       Please <Link to='/login'>sign in</Link> to write a review
