@@ -8,6 +8,7 @@ import Rating from '../components/Rating'
 import {
   useGetProductDetailsQuery,
   useCreateReviewMutation,
+  useDeleteReviewMutation,
 } from '../slices/productApiSlice'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
@@ -50,6 +51,8 @@ const ProductScreen = () => {
 
   const [createReview, { isLoading: loadingReview }] = useCreateReviewMutation()
 
+  const [deleteReview, { isLoading: loadingDelete }] = useDeleteReviewMutation()
+
   const { userInfo } = useSelector((state) => state.auth)
 
   const addToCartHandler = () => {
@@ -75,6 +78,19 @@ const ProductScreen = () => {
       setComment('')
     } catch (err) {
       toast.error(err?.data?.message || err.error)
+    }
+  }
+
+  const deleteHandler = async (userId) => {
+    if (window.confirm('Are you sure you want to delete the review?')) {
+      try {
+        await deleteReview({ userId, productId })
+
+        refetch()
+        toast.success('Review Deleted')
+      } catch (err) {
+        toast.error(err?.data?.message || err.error)
+      }
     }
   }
 
@@ -191,18 +207,28 @@ const ProductScreen = () => {
               {product.reviews.length === 0 && <Message>No reviews</Message>}
 
               <ListGroup variant='flush'>
+                {loadingDelete && <Loader />}
                 {product.reviews.map((review) => (
                   <ListGroup.Item key={review._id}>
                     <strong>{review.name}</strong>
                     <Rating value={review.rating} />
                     <p>{review.createdAt.substring(0, 10)}</p>
                     <p>{review.comment}</p>
+
+                    {userInfo && userInfo.isAdmin && (
+                      <Button
+                        type='submit'
+                        variant='primary'
+                        onClick={() => deleteHandler(review.user)}
+                      >
+                        delete
+                      </Button>
+                    )}
                   </ListGroup.Item>
                 ))}
 
                 <ListGroup.Item>
                   <h2>Write a Customer Review</h2>
-                  {loadingReview && <Loader />}
                   {userInfo ? (
                     <Form onSubmit={submitHandler}>
                       <Form.Group controlId='rating' className='my-2'>
