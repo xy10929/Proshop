@@ -7,7 +7,7 @@ import Product from '../models/productModel.js'
 // @access  Public
 const getProducts = asyncHandler(async (req, res) => {
   //product number of each page
-  const pageSize = 2
+  const pageSize = 8
 
   //current page number
   const page = Number(req.query.pageNumber) || 1
@@ -20,6 +20,7 @@ const getProducts = asyncHandler(async (req, res) => {
     .limit(pageSize)
     .skip(pageSize * (page - 1))
 
+  //page and pages for pagination
   //pages: total number of pages
   res.json({ products, page, pages: Math.ceil(count / pageSize) })
 })
