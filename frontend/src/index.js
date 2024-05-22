@@ -47,6 +47,7 @@ const router = createBrowserRouter(
       {/* children routes */}
       <Route index={true} path='/' element={<HomeScreen />} />
       {/* show HomeScreen when route is exactly / */}
+      <Route path='/page/:pageNumber' element={<HomeScreen />} />
       <Route path='/product/:id' element={<ProductScreen />} />
       <Route path='/cart' element={<CartScreen />} />
       <Route path='/login' element={<LoginScreen />} />

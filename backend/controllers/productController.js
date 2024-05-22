@@ -6,9 +6,22 @@ import Product from '../models/productModel.js'
 // @route   GET /api/products
 // @access  Public
 const getProducts = asyncHandler(async (req, res) => {
+  //product number of each page
+  const pageSize = 2
+
+  //current page number
+  const page = Number(req.query.pageNumber) || 1
+
+  //total number of products
+  const count = await Product.countDocuments()
+
+  //get products need for current page
   const products = await Product.find({})
-  //get data from DB
-  res.json(products)
+    .limit(pageSize)
+    .skip(pageSize * (page - 1))
+
+  //pages: total number of pages
+  res.json({ products, page, pages: Math.ceil(count / pageSize) })
 })
 
 // @desc    Fetch a product

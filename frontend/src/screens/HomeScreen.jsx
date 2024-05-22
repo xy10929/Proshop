@@ -6,9 +6,14 @@ import Product from '../components/Product'
 import { useGetProductsQuery } from '../slices/productApiSlice'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
+import { useParams } from 'react-router-dom'
 
 const HomeScreen = () => {
-  const { data: products, isLoading, error } = useGetProductsQuery()
+  //get pagenumber for url
+  const { pageNumber } = useParams()
+
+  //data: products for current page and pagination info
+  const { data, isLoading, error } = useGetProductsQuery({ pageNumber })
 
   // const [products, setProducts] = useState([])
 
@@ -33,7 +38,7 @@ const HomeScreen = () => {
         <>
           <h1>Latest Products</h1>
           <Row>
-            {products.map((product) => (
+            {data.products.map((product) => (
               //sm: 1 col, md: 2 cols...
               <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
                 <Product product={product} />

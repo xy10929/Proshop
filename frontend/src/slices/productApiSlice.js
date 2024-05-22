@@ -4,8 +4,11 @@ import { apiSlice } from './apiSlice'
 export const productsApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getProducts: builder.query({
-      query: () => ({
+      query: ({pageNumber}) => ({
         url: PRODUCTS_URL,
+        params:{
+          pageNumber
+        }
       }),
       //keep data cached for 5s when a component querys an endpoint, the value will be served if another component makes the same request within the time
       keepUnusedDataFor: 5,
