@@ -77,6 +77,13 @@ export const productsApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ['Product'],
     }),
+
+    getTopProducts: builder.query({
+      query: () => ({
+        url: `${PRODUCTS_URL}/top`,
+      }),
+      keepUnusedDataFor: 5,
+    }),
   }),
 })
 
@@ -89,5 +96,6 @@ export const {
   useDeleteProductMutation,
   useCreateReviewMutation,
   useDeleteReviewMutation,
+  useGetTopProductsQuery,
 } = productsApiSlice
 //add use... and ...Query

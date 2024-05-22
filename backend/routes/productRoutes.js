@@ -8,12 +8,17 @@ import {
   deleteProduct,
   createProductReview,
   deleteProductReview,
+  getTopProducts,
 } from '../controllers/productController.js'
 import { protect, admin } from '../middleware/authMiddleware.js'
 
 const router = express.Router()
 
 router.route('/').get(getProducts).post(protect, admin, createProduct)
+
+//put above '/:id', otherwise top will be regarded as id
+router.get('/top', getTopProducts)
+
 router
   .route('/:id')
   .get(getProductById)
