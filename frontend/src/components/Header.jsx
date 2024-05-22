@@ -7,6 +7,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { useLogoutMutation } from '../slices/usersApiSlice'
 import { logout } from '../slices/authSlice'
 import { useNavigate } from 'react-router-dom'
+import SearchBox from './SearchBox'
 
 const Header = () => {
   //get cartItems state from cartSlice to count the number
@@ -44,9 +45,12 @@ const Header = () => {
               Proshop
             </Navbar.Brand>
           </LinkContainer>
+
           <Navbar.Toggle aria-controls='basic-navbar-nav' />
           <Navbar.Collapse id='basic-navbar-nav'>
             <Nav className='ms-auto'>
+              <SearchBox />
+
               <LinkContainer to='/cart'>
                 <Nav.Link>
                   <FaShoppingCart /> Cart
@@ -76,6 +80,7 @@ const Header = () => {
                   </Nav.Link>
                 </LinkContainer>
               )}
+
               {userInfo && userInfo.isAdmin && (
                 <NavDropdown title='admin' id='adminmenu'>
                   <LinkContainer to='/admin/productlist'>
