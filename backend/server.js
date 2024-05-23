@@ -29,10 +29,6 @@ app.use(express.urlencoded({ extended: true }))
 //cookie parser middleware
 app.use(cookieParser())
 
-app.get('/', (req, res) => {
-  res.send('API is running...')
-})
-
 //set routes prifix and the file they will call which includes the actual methods
 app.use('/api/products', productRoutes)
 app.use('/api/users', userRoutes)
@@ -48,6 +44,21 @@ app.use('/uploads', express.static(path.join(__dirname, '/uploads')))
 app.get('/api/config/paypal', (req, res) =>
   res.send({ clientId: process.env.PAYPAL_CLIENT_ID })
 )
+
+if (process.env.NODE_ENV === 'production') {
+  //set static folder in react build folder
+  app.use(express.static(path.join(__dirname, '/frontend/build')))
+
+  //any route that is not api will be redirected to index.html
+  app.get('*', (req, res) =>
+    //load index.html in '/frontend/build'(build folder)
+    res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'))
+  )
+} else {
+  app.get('/', (req, res) => {
+    res.send('API is running...')
+  })
+}
 
 //error handler
 app.use(notFound)
