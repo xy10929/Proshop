@@ -23,34 +23,40 @@ const storage = multer.diskStorage({
   },
 })
 
-function checkFileType(file, cb) {
+function fileFilter(req, file, cb) {
   //allowed types
-  const filetypes = /jpg|jpej|png/
+  const filetypes = /jpe?g|png|webp/
+  //mimetype - text/image/audio/video/application
+  const mimetypes = /image\/jpe?g|image\/png|image\/webp/
 
   //for checking
   const extname = filetypes.test(path.extname(file.originalname).toLowerCase())
-  //mimetype - text/image/audio/video/application
-  const mimetype = filetypes.test(file.mimetype)
+  const mimetype = mimetypes.test(file.mimetype)
 
   if (extname && mimetype) {
-    return cb(null, ture)
+    cb(null, true)
   } else {
-    cb('Images only!')
+    cb(new Error('Images only!'), false)
   }
 }
 
-const upload = multer({
-  storage,
-  checkFileType,
-})
+const upload = multer({ storage, fileFilter })
+
+//middleware(allow single file), handles actual upload
+//'image' - file.fieldname
+const uploadSingleImage = upload.single('image')
 
 //submit image route
-//upload.single('image') - middleware(allow single file), handles actual upload
-//'image' - file.fieldname
-router.post('/', upload.single('image'), (req, res) => {
-  res.send({
-    message: 'Image Uploaded',
-    image: `/${req.file.path}`,
+router.post('/', (req, res) => {
+  uploadSingleImage(req, res, function (err) {
+    if (err) {
+      return res.status(400).send({ message: err.message })
+    }
+
+    res.status(200).send({
+      message: 'Image uploaded successfully',
+      image: `/${req.file.path}`,
+    })
   })
 })
 

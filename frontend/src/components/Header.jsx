@@ -8,6 +8,7 @@ import { useLogoutMutation } from '../slices/usersApiSlice'
 import { logout } from '../slices/authSlice'
 import { useNavigate } from 'react-router-dom'
 import SearchBox from './SearchBox'
+import { resetCart } from '../slices/cartSlice'
 
 const Header = () => {
   //get cartItems state from cartSlice to count the number
@@ -28,6 +29,8 @@ const Header = () => {
 
       //clear userInfo from localStorage
       dispatch(logout())
+
+      dispatch(resetCart())
 
       navigate('/login')
     } catch (err) {
